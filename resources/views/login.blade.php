@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="pixelstrap">
+    <link rel="icon" href="{{ asset('front/') }}/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('front/') }}/images/favicon.png" type="image/x-icon">
+    <title>Login | Rumah Tenun Milenial</title>
+
+    <!-- Google font-->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/') }}/css/vendors/bootstrap.css">
+
+    <!-- App css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/') }}/css/style.css">
+</head>
+
+<body class="theme-color-4">
+
+    <!-- login section start -->
+    <section class="log-in-section section-b-space">
+        <div class="container w-100">
+            <div class="row">
+
+                <div class="col-xl-5 col-lg-6 me-auto">
+                    <div class="log-in-box">
+                        <div class="log-in-title">
+                            <h3>Selamat datang di Rumah Tenun Milenial</h3>
+                            <h4>Log In</h4>
+                        </div>
+
+                        <div class="input-box">
+                            <form class="row g-4" action="{{ route('login.post') }}" method="post">
+                                @csrf
+                                <div class="col-12">
+                                    @if (Session::has('danger'))
+                                        <div class="alert alert-danger alert-dismissible">{{ Session::get('danger') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-12">
+                                    @if (Session::has('success'))
+                                        <div class="alert alert-success alert-dismissible">{{ Session::get('success') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating log-in-form">
+                                        <input type="email" name="email" class="form-control" id="email"
+                                            placeholder="Email Address">
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating log-in-form">
+                                        <input type="password" name="password" class="form-control" id="password"
+                                            placeholder="Password">
+                                        <label for="password">Password</label>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-12">
+                                    <div class="forgot-box">
+                                        <div class="form-check ps-0 m-0 remember-box">
+                                            <input class="checkbox_animated check-box" type="checkbox"
+                                                id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">Remember me</label>
+                                        </div>
+                                        <a href="forgot.html" class="forgot-password">Forgot Password?</a>
+                                    </div>
+                                </div> --}}
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-animation w-100 justify-content-center">Log
+                                        In</button>
+                                    <h5 class="new-page mt-3 text-center">Belum ada akun ? <a
+                                            href="{{ url('signup') }}">Daftar sekarang</a></h5>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- login section end -->
+
+</body>
+
+</html>
