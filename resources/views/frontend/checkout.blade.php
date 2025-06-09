@@ -256,7 +256,7 @@
                     console.log(data);
 
                     $('#ongkir').append($('<option>', {
-                        text: 'Pilih Jam'
+                        text: 'Pilih Pengiriman'
                     }));
                     $.each(data, function(i, item) {
                         $('#ongkir').append($('<option>', {
