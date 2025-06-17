@@ -74,7 +74,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form class="form" action="" method="post">
+                <form class="form" action="{{ route('penenun.delete') }}" method="post">
                     @csrf
                     <input type="hidden" name="penenun_id" id="kodeitemhapus" value="">
                     <div class="modal-body">
