@@ -54,6 +54,6 @@ class PenenunController extends Controller
     {
         $penenun_id = $request->penenun_id;
         Penenun::destroy($penenun_id);
-        return back()->with('success', 'Data petani berhasil dihapus')->with('message', 'successToast("Data petani berhasil dihapus")');
+        return back()->with('success', 'Data penenun berhasil dihapus')->with('message', 'successToast("Data penenun berhasil dihapus")');
     }
 }
