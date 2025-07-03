@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenenunController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RegionController;
@@ -44,6 +45,9 @@ Route::middleware(AdminLogin::class)->prefix('admin')->group(function () {
 
     Route::get('/ganti-password', [DashboardController::class, 'gantiPassword'])->name('admin.ganti-password');
 
+    Route::get('/pelanggan', [PelangganController::class, 'index'])->name('pelanggan.index');
+    Route::get('/pelanggan/{id}/transaksi', [TransaksiController::class, 'pelanggan'])->name('pelanggan.transaksi');
+
     Route::get('/penenun', [PenenunController::class, 'index'])->name('penenun.index');
     Route::post('/penenun/insert', [PenenunController::class, 'insert'])->name('penenun.insert');
     Route::post('/penenun/update', [PenenunController::class, 'update'])->name('penenun.update');
@@ -65,11 +69,10 @@ Route::middleware(AdminLogin::class)->prefix('admin')->group(function () {
     Route::get('/transaksi/butuh-verifikasi', [TransaksiController::class, 'needVerify'])->name('transaksi.verify');
     Route::get('/transaksi/butuh-kirim', [TransaksiController::class, 'needShipping'])->name('transaksi.ship');
     Route::get('/transaksi/dalam-pengiriman', [TransaksiController::class, 'onShipping'])->name('transaksi.shipping');
-    Route::get('/transaksi/selesai', [TransaksiController::class, 'finished'])->name('transaksi.finished');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'detailTransaksi'])->name('transaksi.detail');
     Route::post('/transaksi/verifikasi', [TransaksiController::class, 'verifikasi'])->name('verifikasi.post');
     Route::post('/transaksi/kirim', [TransaksiController::class, 'kirim'])->name('transaksi.kirim');
-    Route::post('/transaksi/selesaikan', [TransaksiController::class, 'finishing'])->name('transaksi.finish');
+    Route::post('/transaksi/selesaikan', [TransaksiController::class, 'finishing'])->name('transaksi.finished');
 
     Route::get('/laporan', [LaporanController::class, 'laporanPage'])->name('laporan');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('admin.cetak-laporan');

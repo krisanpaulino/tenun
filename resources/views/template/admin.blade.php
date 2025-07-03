@@ -66,6 +66,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('pelanggan.index') }}">
+                        <div class="parent-icon"><i class="fadeIn animated bx bx-user"></i>
+                        </div>
+                        <div class="menu-title">Data Pelanggan</div>
+                    </a>
+                </li>
+                <li>
                     <a href="<?= url('admin/produk') ?>">
                         <div class="parent-icon"><i class="fadeIn animated bx bx-cart-alt"></i>
                         </div>

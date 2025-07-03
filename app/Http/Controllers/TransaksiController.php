@@ -384,4 +384,13 @@ class TransaksiController extends Controller
         $pembayaran->save();
         return back()->with('message', "successToast('pembayaran diterima, menunggu verifikasi')");
     }
+    function pelanggan($pelanggan_id)
+    {
+        $pelanggan = Pelanggan::find($pelanggan_id);
+        $title = 'Transaksi Pelanggan';
+
+        $transaksi = $pelanggan->transaksi;
+
+        return view('backend.transaksi', compact('pelanggan', 'transaksi', 'title'));
+    }
 }

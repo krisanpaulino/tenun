@@ -11,7 +11,7 @@ class Province extends Model
     protected $primaryKey = 'province_id';
     public $incrementing = true;
     public $timestamps = false;
-    // public $guarded = ['province_id'];
+    public $guarded = [];
 
     function city(): HasMany
     {

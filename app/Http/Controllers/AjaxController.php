@@ -10,8 +10,8 @@ class AjaxController extends Controller
     {
         $search = urlencode($request->search);
         $curl = curl_init();
-        //         curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 0);
-        // curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://rajaongkir.komerce.id/api/v1/destination/domestic-destination?search=" . $search,
             CURLOPT_RETURNTRANSFER => true,
@@ -55,7 +55,7 @@ class AjaxController extends Controller
                 'origin' => '34462',
                 'destination' => $destination,
                 'weight' => 1000,
-                'courier' => 'jne'
+                'courier' => 'lion'
             ),
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,

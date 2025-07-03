@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pelanggan extends Model
 {
@@ -30,5 +31,9 @@ class Pelanggan extends Model
         return $this->belongsTo(Province::class, 'provinsi', 'province_id')->withDefault([
             'province' => 'no data'
         ]);
+    }
+    function transaksi(): HasMany
+    {
+        return $this->hasMany(Transaksi::class, 'pelanggan_id', 'pelanggan_id');
     }
 }
