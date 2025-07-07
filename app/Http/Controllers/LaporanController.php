@@ -40,9 +40,9 @@ class LaporanController extends Controller
         // dd($dari);
 
         $model = Transaksi::select('*');
-        if ($dari != null && $dari != '')
+        if ($dari != null)
             $model->where(DB::raw('CAST(tanggal_transaksi AS DATE)'), '>=', $dari);
-        if ($sampai != null && $sampai != '')
+        if ($sampai != null)
             $model->where(DB::raw('CAST(tanggal_transaksi AS DATE)'), '<=', $sampai);
         $laporan = $model->get();
         $data = [

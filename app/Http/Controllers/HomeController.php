@@ -126,6 +126,7 @@ class HomeController extends Controller
 
         $pelanggan = Pelanggan::where('user_id', '=', Session::get('user_id'))->first();
         $transaksi = Transaksi::where('pelanggan_id', $pelanggan->pelanggan_id)->orderBy('tanggal_transaksi', 'desc')->get();
+        Transaksi::where('pelanggan_id', $pelanggan->pelanggan_id)->where('read', 1)->update(['read' => 2]);
 
         return view('frontend.orderlist', compact('transaksi', 'pelanggan'));
     }

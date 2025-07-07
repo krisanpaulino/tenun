@@ -8,6 +8,7 @@
     <!--favicon-->
     <link rel="icon" href="{{ asset('/') }}images/favicon-32x32.png" type="image/png" />
     <!--plugins-->
+    <link rel="stylesheet" href="{{ asset('/') }}plugins/notifications/css/lobibox.min.css" />
     <link href="{{ asset('/') }}plugins/simplebar/css/simplebar.css" rel="stylesheet" />
     <link href="{{ asset('/') }}plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
     <link href="{{ asset('/') }}plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
@@ -122,8 +123,8 @@
 
                             <li class="nav-item dropdown dropdown-large">
                                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
-                                    href="#" data-bs-toggle="dropdown"><span
-                                        class="alert-count">{{ \App\Models\Transaksi::where('status_transaksi', '=', 'verifikasi')->count('transaksi.transaksi_id') }}</span>
+                                    href="#" data-bs-toggle="dropdown"><span class="alert-count"
+                                        id="bellMasuk"></span>
                                     <i class="bx bx-bell"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -131,19 +132,19 @@
                                         <div class="msg-header">
                                             <p class="msg-header-title">Pesanan Masuk</p>
                                             <p class="msg-header-badge">
-                                                {{ \App\Models\Transaksi::where('status_transaksi', '=', 'verifikasi')->count('transaksi.transaksi_id') }}
-                                                New</p>
+
+                                            </p>
                                         </div>
                                     </a>
                                     <div class=" ps">
-                                        <a class="dropdown-item" href="javascript:;">
+                                        <a class="dropdown-item" href="{{ route('transaksi.verify') }}">
                                             <div class="d-flex align-items-center">
                                                 <div class="notify bg-light-danger text-danger"><i
                                                         class="bx bxs-cart"></i>
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h6 class="msg-name">Pesanan masuk </h6>
-                                                    <p class="msg-info">Anda memiliki
+                                                    <p class="msg-info" id="orderMasuk">Anda memiliki
                                                         {{ \App\Models\Transaksi::where('status_transaksi', '=', 'checkout')->count('transaksi.transaksi_id') }}
                                                         pesanan masuk</p>
                                                 </div>
@@ -198,6 +199,9 @@
     <script src="{{ asset('/') }}plugins/simplebar/js/simplebar.min.js"></script>
     <script src="{{ asset('/') }}plugins/metismenu/js/metisMenu.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('/') }}plugins/notifications/js/lobibox.min.js"></script>
+    <script src="{{ asset('/') }}plugins/notifications/js/notifications.js"></script>
+    <script src="{{ asset('/') }}plugins/notifications/js/notification-custom-script.js"></script>
     @yield('jsplugins')
     <!--app JS-->
     <script src="{{ asset('/') }}js/app.js"></script>
@@ -222,6 +226,60 @@
                 'text': message,
             }).showToast()
         }
+
+        function notifikasi(title, msg) {
+            Lobibox.notify('info', {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                position: 'top right',
+                icon: 'bx bx-info-circle',
+                sound: false,
+                title: title,
+                msg: msg
+            });
+        }
+
+        function doPoll() {
+            // Get the JSON
+
+            $.ajax({
+                url: '{{ route('ajax.unreadOrderMasuk') }}',
+                type: 'get',
+                success: function(data) {
+
+                    if (data != null) {
+                        // Yeah, there is a new notification! Show it to the user
+                        data.forEach(row => {
+                            var notif = 'Order masuk! ID #' + row.transaksi_id
+                            notifikasi('Order masuk baru!', notif)
+                        });
+
+                    }
+                },
+                dataType: "json"
+            });
+            $.ajax({
+                url: '{{ route('ajax.orderMasuk') }}',
+                type: 'get',
+                success: function(data) {
+
+                    if (data != null) {
+                        // Yeah, there is a new notification! Show it to the user
+                        if (data > 0) {
+                            $('#bellMasuk').text(data)
+                        } else {
+                            $('#bellMasuk').text(data)
+                        }
+                        $('#orderMasuk').text(data + ' order baru masuk!')
+                    }
+
+                },
+                dataType: "json"
+            });
+            // Retry after a second
+            setTimeout(doPoll, 10000);
+        }
+        doPoll();
     </script>
     <script>
         <?= session('message') ?>

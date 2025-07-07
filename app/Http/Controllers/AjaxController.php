@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AjaxController extends Controller
 {
@@ -81,5 +84,36 @@ class AjaxController extends Controller
         // }
         // $data['results'] = $result;
         echo json_encode($array_response['data']);
+    }
+
+    function getMasukUnread()
+    {
+        $transaksi = Transaksi::where('read', 0)->where('status_transaksi', 'checkout')->get();
+        foreach ($transaksi as $trx) {
+            $trx->read = 1;
+            $trx->save();
+        }
+        echo json_encode($transaksi);
+    }
+    function orderMasuk()
+    {
+        $transaksi = Transaksi::where('status_transaksi', 'checkout')->count();
+        echo json_encode($transaksi);
+    }
+    function getProsesUnread()
+    {
+        $user = User::where('email', Session::get('email'))->first();;
+        $transaksi = Transaksi::where('read', 0)->where('status_transaksi', 'proses')->where('pelanggan_id', $user->pelanggan->pelanggan_id)->get();
+        foreach ($transaksi as $trx) {
+            $trx->read = 1;
+            $trx->save();
+        }
+        echo json_encode($transaksi);
+    }
+    function orderProses()
+    {
+        $user = User::where('email', Session::get('email'))->first();;
+        $transaksi = Transaksi::where('status_transaksi', 'proses')->where('pelanggan_id', $user->pelanggan->pelanggan_id)->where('read', 1)->count();
+        echo json_encode($transaksi);
     }
 }

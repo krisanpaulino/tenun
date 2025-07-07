@@ -39,7 +39,7 @@
             <button type="submit" class="btn btn-primary px-4">Filter</button>
         </div>
         <div class="col">
-            <a href="<?= url('/admin/laporan/cetak?dari' . $dari . '&sampai=' . $sampai) ?>" target="_blank"
+            <a href="<?= url('/admin/laporan/cetak?dari=' . $dari . '&sampai=' . $sampai) ?>" target="_blank"
                 class="btn btn-warning px-4">Cetak</a>
         </div>
     </form>

@@ -21,6 +21,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
+    <link rel="stylesheet" href="{{ asset('/') }}plugins/notifications/css/lobibox.min.css" />
     <!-- bootstrap css -->
     <link id="rtl-link" rel="stylesheet" type="text/css" href="{{ asset('front') }}/assets/css/vendors/bootstrap.css">
 
@@ -136,7 +137,8 @@
                                                         </span></a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('order.list') }}">My Order</a>
+                                                    <a class="nav-link" href="{{ route('order.list') }}">My Order <span
+                                                            id="bellMasuk"></span></a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ url('/profil') }}">My Profile</a>
@@ -244,6 +246,10 @@
     <!-- Quantity js -->
     <script src="{{ asset('front') }}/assets/js/quantity-2.js"></script>
 
+    <script src="{{ asset('/') }}plugins/notifications/js/lobibox.min.js"></script>
+    <script src="{{ asset('/') }}plugins/notifications/js/notifications.js"></script>
+    <script src="{{ asset('/') }}plugins/notifications/js/notification-custom-script.js"></script>
+
     <!-- WOW js -->
     <script src="{{ asset('front') }}/assets/js/wow.min.js"></script>
     <script src="{{ asset('front') }}/assets/js/custom-wow.js"></script>
@@ -280,7 +286,65 @@
                 }
             });
             // $('.form-select').select2();
+
         });
+
+        function notifikasi(title, msg) {
+            Lobibox.notify('info', {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                position: 'top right',
+                icon: 'bx bx-info-circle',
+                sound: false,
+                title: title,
+                msg: msg
+            });
+        }
+
+        function doPoll() {
+            // Get the JSON
+
+            $.ajax({
+                url: '{{ route('ajax.unreadOrderProses') }}',
+                type: 'get',
+                success: function(data) {
+
+                    if (data != null) {
+                        // Yeah, there is a new notification! Show it to the user
+                        data.forEach(row => {
+                            var notif = 'Transaksi #' + row.transaksi_id +
+                                ' sedang diproses'
+                            notifikasi('Transaksi anda diproses!', notif)
+                        });
+
+                    }
+                },
+                dataType: "json"
+            });
+            $.ajax({
+                url: '{{ route('ajax.orderProses') }}',
+                type: 'get',
+                success: function(data) {
+
+                    if (data != null) {
+                        // Yeah, there is a new notification! Show it to the user
+                        if (data > 0) {
+                            $('#bellMasuk').attr('class', 'badge bg-danger')
+                            $('#bellMasuk').text(data)
+                        } else {
+                            $('#bellMasuk').attr('class', '')
+                            $('#bellMasuk').text('')
+                        }
+                        // $('#orderMasuk').text(data + ' transaksi anda s!')
+                    }
+
+                },
+                dataType: "json"
+            });
+            // Retry after a second
+            setTimeout(doPoll, 10000);
+        }
+        doPoll();
     </script>
 </body>
 

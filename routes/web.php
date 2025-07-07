@@ -24,6 +24,10 @@ Route::post('/signup', [AuthController::class, 'registrasiPost'])->name('signup.
 
 Route::get('/ajax-carilokasi', [AjaxController::class, 'lokasi'])->name('ajax.getLokasi');
 Route::get('/ajax-cost', [AjaxController::class, 'cost'])->name('ajax.getCost');
+Route::get('/notif-masuk', [AjaxController::class, 'getMasukUnread'])->name('ajax.unreadOrderMasuk');
+Route::get('/order-masuk', [AjaxController::class, 'orderMasuk'])->name('ajax.orderMasuk');
+Route::get('/notif-proses', [AjaxController::class, 'getProsesUnread'])->name('ajax.unreadOrderProses');
+Route::get('/order-proses', [AjaxController::class, 'orderProses'])->name('ajax.orderProses');
 
 Route::post('/profil/update', [AuthController::class, 'updateProfil'])->name('profil.update');
 Route::post('/profil/ganti-password', [AuthController::class, 'gantiPassword'])->name('profil.password');
