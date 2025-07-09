@@ -73,10 +73,11 @@ Route::middleware(AdminLogin::class)->prefix('admin')->group(function () {
     Route::get('/transaksi/butuh-verifikasi', [TransaksiController::class, 'needVerify'])->name('transaksi.verify');
     Route::get('/transaksi/butuh-kirim', [TransaksiController::class, 'needShipping'])->name('transaksi.ship');
     Route::get('/transaksi/dalam-pengiriman', [TransaksiController::class, 'onShipping'])->name('transaksi.shipping');
+    Route::get('/transaksi/selesai', [TransaksiController::class, 'onShipping'])->name('transaksi.finished');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'detailTransaksi'])->name('transaksi.detail');
     Route::post('/transaksi/verifikasi', [TransaksiController::class, 'verifikasi'])->name('verifikasi.post');
     Route::post('/transaksi/kirim', [TransaksiController::class, 'kirim'])->name('transaksi.kirim');
-    Route::post('/transaksi/selesaikan', [TransaksiController::class, 'finishing'])->name('transaksi.finished');
+    Route::post('/transaksi/selesaikan', [TransaksiController::class, 'finishing'])->name('transaksi.finish');
 
     Route::get('/laporan', [LaporanController::class, 'laporanPage'])->name('laporan');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('admin.cetak-laporan');
